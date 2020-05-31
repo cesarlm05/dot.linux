@@ -4,9 +4,9 @@ configuration {{
   drun-display-format: "{{icon}} {{name}}";
   display-combi: " ";
   display-run: " ";
-  display-drun: " ";
+  display-drun: " ";
   display-window: " ";
-  modi: "window,run,drun";
+  display-calc: " ";
 }}
 
 * {{

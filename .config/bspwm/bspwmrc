@@ -26,7 +26,8 @@ deamonize picom --experimental-backends --backend glx
 deamonize dunst
 deamonize ~/.config/polybar/launch.sh
 deamonize plank
-deamonize .config/bspwm/custom.sh
+deamonize .config/bspwm/rules-focus.sh
+deamonize greenclip daemon
 
 # Start gnome keyring. Needed to unlock id_rsa and probably for Brave
 eval $(gnome-keyring-daemon --start)
@@ -50,7 +51,7 @@ bspc config active_border_color "$color2"
 bspc config focused_border_color "$color4"
 bspc config presel_feedback_color "$color1"
 
-bspc config split_ratio          0.52
+bspc config split_ratio          0.50
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
@@ -59,6 +60,3 @@ bspc config pointer_modifier mod4
 bspc config pointer_action1 move
 bspc config pointer_action2 resize_side
 
-# Kitty Scratchpad
-bspc rule -a dropdown sticky=on state=floating rectangle=1200x600+$((1280-600))+$((1600 - 600)) border=on center=on
-bspc rule -a Dunst border=off

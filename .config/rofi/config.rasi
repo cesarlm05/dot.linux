@@ -1,5 +1,5 @@
 configuration {
-	modi: "window,drun,combi";
+	modi: "drun,window,calc";
 /*	width: 50;*/
 	lines: 8;
 /*	columns: 1;*/
@@ -35,7 +35,7 @@ configuration {
 /*	auto-select: false;*/
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
-	combi-modi: "window,drun";
+	combi-modi: "window,drun,calc";
 	matching: "fuzzy";
 /*	tokenize: true;*/
 /*	m: "-5";*/

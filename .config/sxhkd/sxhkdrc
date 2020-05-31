@@ -9,6 +9,16 @@ ctrl + grave
 ctrl + Return
 	kitty
 
+# Clipboard
+alt + ctrl + v
+	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'; \
+	sleep 0.1; \
+	xte "keydown Super_L" "key v" "keyup Super_L"
+
+# Rofi Emoji
+alt + ctrl + e
+	rofimoji --rofi-args "-matching normal"
+
 # program launcher
 ctrl + @space
 	rofi -show drun >> ~/.cache/bspwm/logs/rofi.log 2>&1 &

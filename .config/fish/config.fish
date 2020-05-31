@@ -9,8 +9,13 @@ set -x PATH $PATH /home/folke/bin
 set -x PATH $PATH /home/folke/.cargo/bin
 set -x PATH $PATH /home/folke/.local/bin
 set -x PATH $PATH ~/.config/scripts
+set -x PATH $PATH ~/.config/scripts/bin
 set -x PATH /usr/local/sbin $PATH
 set -x PATH /home/folke/.pnpm-global/bin $PATH
+
+if test -n "$DESKTOP_SESSION"
+    set (gnome-keyring-daemon --start | string split "=")
+end
 
 # Tmux
 abbr ta 'tmux attach -t'
