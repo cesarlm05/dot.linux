@@ -47,7 +47,7 @@ abbr g 'git'
 abbr gl 'git l --color | devmoji --log --color | less -rXF'
 abbr push "git push"
 abbr pull "git pull"
-alias dot 'git --git-dir=$HOME/.dot --work-tree=$HOME'
+alias dot 'hub --git-dir=$HOME/.dot --work-tree=$HOME'
 alias tn "npx --no-install ts-node --transpile-only"
 abbr tt "tn src/tt.ts"
 abbr code "code-insiders"
@@ -171,10 +171,6 @@ function wunsplash
   or exit 1
   mywal -i "$wal"
   notify-send "Wal Unsplash" "Done!" 
-end
-
-function brightness
-  echo $argv[1] | sudo tee /sys/class/backlight/acpi_video0/brightness
 end
 
 abbr coredump-last "coredumpctl gdb (coredumpctl list | tail -1 | awk '{print \$5}')"

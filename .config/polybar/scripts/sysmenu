@@ -17,7 +17,7 @@ MENU="$(rofi -no-lazy-grab -sep "|" -dmenu -i -p 'System :' \
 <<< "  Lock|  Logout|  Reboot|  Shutdown")"
 case "$MENU" in
   *Lock) betterlockscreen -l dim ;;
-  *Logout) bspc wm -q;;
+  *Logout) bspc quit;;
   *Reboot) systemctl reboot ;;
   *Shutdown) systemctl -i poweroff
 esac

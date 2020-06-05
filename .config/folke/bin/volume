@@ -1,5 +1,13 @@
 #!/bin/sh
 
+if [ "$1" = "up" ]; then
+	pactl set-sink-volume @DEFAULT_SINK@ +2000
+elif [ "$1" = "down" ]; then
+  pactl set-sink-volume @DEFAULT_SINK@ -2000
+elif [ "$1" = "mute" ]; then
+  pactl set-sink-mute @DEFAULT_SINK@ toggle
+fi
+
 function get_volume {
     amixer get Master | grep '%' | head -n 1 | cut -d '[' -f 2 | cut -d '%' -f 1
 }

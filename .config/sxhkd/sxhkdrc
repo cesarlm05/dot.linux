@@ -1,69 +1,88 @@
-# Reload this config
+#################################################################
+# SYSTEM
+#################################################################
+
+# Restart sxhkd
 ctrl + alt + s
-	pkill -USR1 -x sxhkd; \
-	notify-send "Restarted "
+	drunstify "pkill -USR1 -x sxhkd" "Restarted sxhkd"
 
-# Scratchpad and quick terminal
-ctrl + grave
-	scratchpad dropdown
-ctrl + Return
-	kitty
-
-# Clipboard
-alt + ctrl + v
-	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'; \
-	sleep 0.1; \
-	xte "keydown Super_L" "key v" "keyup Super_L"
-
-# Rofi Emoji
-alt + ctrl + e
-	rofimoji --rofi-args "-matching normal"
-
-# program launcher
-ctrl + @space
-	rofi -show drun >> ~/.cache/bspwm/logs/rofi.log 2>&1 &
-
-ctrl + Tab
- rofi -show window
-
-# media keys
-{XF86AudioRaiseVolume, XF86AudioLowerVolume}
-	pactl set-sink-volume @DEFAULT_SINK@ {+,-}2000; \
-	~/.config/polybar/scripts/volume-notification.sh
-shift + {XF86AudioRaiseVolume, XF86AudioLowerVolume}
-	pactl set-sink-volume @DEFAULT_SINK@ {+,-}1000; \
-	~/.config/polybar/scripts/volume-notification.sh
-
-{XF86MonBrightnessUp, XF86MonBrightnessDown}
-	~/.config/polybar/scripts/brightness.sh {up,down}
-
-XF86AudioMute
-	pactl set-sink-mute @DEFAULT_SINK@ toggle; \
-	~/.config/polybar/scripts/volume-notification.sh
-
-{XF86AudioPrev, XF86AudioPlay, XF86AudioNext}
-	playerctl {previous,play-pause,next} || spotify &
+# Quit/restart bspwm
+ctrl + alt + {q,r}
+	drunstify "bspc {quit,wm -r}" "Restarted bspwm"
 
 # Lock screen
 ctrl + alt + l
 	 betterlockscreen -l dim
 
-# make sxhkd reload its configuration files:
+#################################################################
+# APPS
+#################################################################
+
+# Scratchpad
+ctrl + grave
+	scratchpad dropdown
+
+# Terminal
+ctrl + Return
+	kitty
+
+# Screenshot
+ctrl + alt + p
+	sfile=$(date "+%Y-%m-%d_%H:%M:%S").png; \
+	drunstify "maim ~/Pictures/Screenshots/$sfile" "Screenshot: $sfile"
+
+#################################################################
+# ROFI
+#################################################################
+
+# Launcher
+ctrl + @space
+	rofi -show drun >> ~/.cache/bspwm/logs/rofi.log 2>&1 &
+
+# Window list
+ctrl + Tab
+ rofi -show window
+
+# Clipboard
+ctrl + alt + v
+	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'; \
+	sleep 0.1; \
+	xte "keydown Super_L" "key v" "keyup Super_L"
+
+# Emoji
+ctrl + alt + e
+	rofimoji --rofi-args "-matching normal"
+
+#################################################################
+# TOUCHBAR & MEDIA KEYS
+#################################################################
+
+# Volume
+{XF86AudioRaiseVolume, XF86AudioLowerVolume, XF86AudioMute}
+	volume {up, down, mute}
+
+# Display Brightness
+{XF86MonBrightnessUp, XF86MonBrightnessDown}
+	brightness 5%{+,-}
+
+# Keyboard Brightness
+{XF86KbdBrightnessUp, XF86KbdBrightnessDown}
+	brightness-kbd 5%{+,-}
+
+# Media Player
+{XF86AudioPrev, XF86AudioPlay, XF86AudioNext}
+	playerctl {previous,play-pause,next} || spotify &
 
 # Swicthing Desktops
-
 ctrl + mod4 + {Down,Up}
 	bspc desktop -f {next,prev}
 
 ctrl + shift + {Down,Up}
-		bspc node -d {next,prev} -f
+	bspc node -d {next,prev} -f
 #
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
-ctrl + alt + {q,r}
-	bspc {quit,wm -r}
 
 # close and kill
 ctrl + {_,shift + }q
