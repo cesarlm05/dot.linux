@@ -1,0 +1,55 @@
+{
+  "folders": [
+    {
+      "name": "📦",
+      "path": "."
+    },
+    {
+      "name": "🐠 fish",
+      "path": "../fish"
+    },
+    {
+      "name": "bspwm",
+      "path": "../bspwm"
+    },
+    {
+      "name": "sxhkd",
+      "path": "../sxhkd"
+    },
+    {
+      "name": "polybar",
+      "path": "../polybar"
+    },
+    {
+      "name": "picom",
+      "path": "../picom"
+    },
+    {
+      "name": "dunst",
+      "path": "../dunst"
+    },
+    {
+      "name": "rofi",
+      "path": "../rofi"
+    },
+    {
+      "name": "kitty",
+      "path": "../kitty"
+    },
+    {
+      "name": "wal",
+      "path": "../wal"
+    },
+    {
+      "name": "🕵 logs",
+      "path": "../../.cache/bspwm/logs"
+    },
+    {
+      "name": "🚀 all",
+      "path": "../"
+    }
+  ],
+  "settings": {
+    "cSpell.enabled": false
+  }
+}

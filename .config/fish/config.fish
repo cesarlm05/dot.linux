@@ -1,17 +1,19 @@
 # Bat Configuration
 set -x BAT_THEME "Dracula"
-set -x MANPAGER "sh -c 'bat -l man -p'" # use bat to format man pages
+set -x MANROFFOPT "-c"
+set -x MANPAGER "sh -c 'col -bx | bat -l man -p'" # use bat to format man pages
+set -x MANPAGER "most" # use bat to format man pages
 
 # Path
 # set -x PATH $PATH /usr/local/opt/ruby/bin /usr/local/lib/ruby/gems/2.6.0/bin
-set -x PATH $PATH /home/folke/go/bin
-set -x PATH $PATH /home/folke/bin
-set -x PATH $PATH /home/folke/.cargo/bin
-set -x PATH $PATH /home/folke/.local/bin
-set -x PATH $PATH ~/.config/scripts
+set -x PATH $PATH ~/go/bin
+set -x PATH $PATH ~/bin
+set -x PATH $PATH ~/.cargo/bin
+set -x PATH $PATH ~/.local/bin
+set -x PATH $PATH ~/.config/folke/bin
 set -x PATH $PATH ~/.config/scripts/bin
 set -x PATH /usr/local/sbin $PATH
-set -x PATH /home/folke/.pnpm-global/bin $PATH
+set -x PATH ~/.pnpm-global/bin $PATH
 
 if test -n "$DESKTOP_SESSION"
     set (gnome-keyring-daemon --start | string split "=")
@@ -46,7 +48,7 @@ abbr gl 'git l --color | devmoji --log --color | less -rXF'
 abbr push "git push"
 abbr pull "git pull"
 alias dot 'git --git-dir=$HOME/.dot --work-tree=$HOME'
-abbr tn "npx --no-install ts-node --transpile-only"
+alias tn "npx --no-install ts-node --transpile-only"
 abbr tt "tn src/tt.ts"
 abbr code "code-insiders"
 abbr todo "ag --color-line-number '1;36' --color-path '1;36' --print-long-lines --silent '((//|#|<!--|;|/\*|^)\s*(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)|^\s*- \[ \])'"
@@ -96,6 +98,25 @@ function corona
     tput cuu1
     sleep 30
   end
+end
+
+function dot.untracked
+  dot ls-files -t --other --exclude-standard $argv[1]
+end
+
+
+function dot.all
+  dot status -s -unormal
+end
+
+function dot.status
+  dot status -s ~
+  for d in ~/.config/*
+    if dot ls-files --error-unmatch $d &> /dev/null
+      dot.untracked $d
+    end
+  end
+  dot.untracked ~/.SpaceVim.d/
 end
 
 function fixwifi
@@ -156,6 +177,8 @@ function brightness
   echo $argv[1] | sudo tee /sys/class/backlight/acpi_video0/brightness
 end
 
+abbr coredump-last "coredumpctl gdb (coredumpctl list | tail -1 | awk '{print \$5}')"
+
 # tabtab source for packages
 # uninstall by removing these lines
 [ -f ~/.config/tabtab/fish/__tabtab.fish ]; and . ~/.config/tabtab/fish/__tabtab.fish; or true
@@ -163,5 +186,5 @@ end
 starship init fish | source
 
 # fnm
-set PATH /home/folke/.fnm $PATH
+set PATH ~/.fnm $PATH
 fnm env --multi | source

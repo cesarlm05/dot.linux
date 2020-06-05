@@ -25,7 +25,7 @@ deamonize sxhkd
 deamonize picom --experimental-backends --backend glx
 deamonize dunst
 deamonize ~/.config/polybar/launch.sh
-deamonize plank
+deamonize polydock
 deamonize .config/bspwm/rules-focus.sh
 deamonize greenclip daemon
 
@@ -54,6 +54,7 @@ bspc config presel_feedback_color "$color1"
 bspc config split_ratio          0.50
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
+bspc config honor_size_hints     true
 
 # Mouse Control
 bspc config pointer_modifier mod4

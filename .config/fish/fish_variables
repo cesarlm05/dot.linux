@@ -19,6 +19,7 @@ SETUVAR __tf_vers:The\x20Fuck\x203\x2e15\x20using\x20Python\x203\x2e8\x2e3
 SETUVAR _fish_abbr_bdpwmrc:nvim\x20\x2econfig/sxhkd/sxhkdrc\x20\x2econfig/bspwm/bspwmrc
 SETUVAR _fish_abbr_bspwmrc:nvim\x20\x2econfig/sxhkd/sxhkdrc\x20\x2econfig/bspwm/bspwmrc
 SETUVAR _fish_abbr_code:code\x2dinsiders
+SETUVAR _fish_abbr_coredump_2D_last:coredumpctl\x20gdb\x20\x28coredumpctl\x20list\x20\x7c\x20tail\x20\x2d1\x20\x7c\x20awk\x20\x27\x7bprint\x20\x245\x7d\x27\x29
 SETUVAR _fish_abbr_dnfi:sudo\x20dnf\x20install
 SETUVAR _fish_abbr_dnfs:sudo\x20dnf\x20search
 SETUVAR _fish_abbr_dnfu:sudo\x20dnf\x20update\x20\x2d\x2drefresh
@@ -40,7 +41,6 @@ SETUVAR _fish_abbr_tad:tmux\x20attach\x20\x2dd\x20\x2dt
 SETUVAR _fish_abbr_tkss:tmux\x20kill\x2dsession\x20\x2dt
 SETUVAR _fish_abbr_tksv:tmux\x20kill\x2dserver
 SETUVAR _fish_abbr_tl:tmux\x20list\x2dsessions
-SETUVAR _fish_abbr_tn:npx\x20\x2d\x2dno\x2dinstall\x20ts\x2dnode\x20\x2d\x2dtranspile\x2donly
 SETUVAR _fish_abbr_todo:ag\x20\x2d\x2dcolor\x2dline\x2dnumber\x20\x271\x3b36\x27\x20\x2d\x2dcolor\x2dpath\x20\x271\x3b36\x27\x20\x2d\x2dprint\x2dlong\x2dlines\x20\x2d\x2dsilent\x20\x27\x28\x28//\x7c\x23\x7c\x3c\x21\x2d\x2d\x7c\x3b\x7c/\x5c\x2a\x7c\x5e\x29\x5cs\x2a\x28TODO\x7cFIXME\x7cFIX\x7cBUG\x7cUGLY\x7cHACK\x7cNOTE\x7cIDEA\x7cREVIEW\x7cDEBUG\x7cOPTIMIZE\x29\x7c\x5e\x5cs\x2a\x2d\x20\x5c\x5b\x20\x5c\x5d\x29\x27
 SETUVAR _fish_abbr_ts:tmux\x20new\x2dsession\x20\x2ds
 SETUVAR _fish_abbr_tt:tn\x20src/tt\x2ets

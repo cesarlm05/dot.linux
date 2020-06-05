@@ -62,4 +62,5 @@ case "$instance.$class.$pname" in
 	;;
 
 	*spotify) echo "state=floating sticky=on";;
+	gjs.Gjs*) echo "state=floating rectangle=1200x800+0+0 center=on";;
 esac
