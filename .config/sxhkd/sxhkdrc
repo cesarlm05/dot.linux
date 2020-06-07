@@ -14,6 +14,10 @@ ctrl + alt + {q,r}
 ctrl + alt + l
 	 betterlockscreen -l dim
 
+# close and kill
+ctrl + {_,shift + }q
+	bspc node -{c,k}
+
 #################################################################
 # APPS
 #################################################################
@@ -30,6 +34,19 @@ ctrl + Return
 ctrl + alt + p
 	sfile=$(date "+%Y-%m-%d_%H:%M:%S").png; \
 	drunstify "maim ~/Pictures/Screenshots/$sfile" "Screenshot: $sfile"
+
+# Screenshot of selected area
+ctrl + alt + shift + p
+	maim -s | xclip -selection clipboard -t image/png 
+
+# Pywal + Unsplash
+shift + ctrl + super + r
+	fish -c "wunsplash nature,beach" &
+
+# Save current wallpaper to favorites
+shift + ctrl + super + f
+	cp $(cat ~/.cache/wal/wal) ~/.cache/unsplash/favs/; \
+	notify-send "Wal Unsplash" "Added to favs!"
 
 #################################################################
 # ROFI
@@ -73,109 +90,84 @@ ctrl + alt + e
 {XF86AudioPrev, XF86AudioPlay, XF86AudioNext}
 	playerctl {previous,play-pause,next} || spotify &
 
+#################################################################
+# WINDOW STATE & LAYOUT
+#################################################################
+
+# toggle between the tiled and monocle layout
+mod4 + m
+	bspc desktop -l next
+
+# toggle between fullscreen and previous state
+mod4 + f
+	bspc node -t '~fullscreen'
+
+# toggle between tiled & floating
+mod4 + t
+	[ -z "$(bspc query -N -n focused.floating)" ] \                    
+	&& bspc node focused -t floating \                                        
+	|| bspc node focused -t tiled
+
+# hide window
+mod4 + h
+	bspc query -N -n > ~/.config/bspwm/last.hidden; \
+	bspc node -g hidden=on
+
+# unhide last hidden
+mod4 + alt + h
+	bspc node $(cat ~/.config/bspwm/last.hidden) -g hidden=off -f
+
+#################################################################
+# DESKTOP
+#################################################################
+
 # Swicthing Desktops
 ctrl + mod4 + {Down,Up}
 	bspc desktop -f {next,prev}
 
+# move window to desktop and focus
 ctrl + shift + {Down,Up}
 	bspc node -d {next,prev} -f
-#
-# bspwm hotkeys
-#
 
+# focus or send to the given desktop
+ctrl + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
 
-# close and kill
-ctrl + {_,shift + }q
-	bspc node -{c,k}
-
-# alternate between the tiled and monocle layout
-mod4 + m
-	bspc desktop -l next
-
-# send the newest marked node to the newest preselected node
-mod4 + y
-	bspc node newest.marked.local -n newest.!automatic.local
-
-# swap the current node and the biggest node
-mod4 + g
-	bspc node -s biggest
-
-shift + ctrl + super + r
-	fish -c "wunsplash nature,beach" &
-
-shift + ctrl + super + f
-	cp $(cat ~/.cache/wal/wal) ~/.cache/unsplash/favs/; \
-	notify-send "Wal Unsplash" "Added to favs!"
-
-#
-# state/flags
-#
-
-# set the window state
-mod4 + {t,shift + t,s,f}
-	bspc node -t '~{tiled,pseudo_tiled,floating,fullscreen}'
-
-# hide window
-ctrl + h
-	bspc node -g hidden=on
-
-# set the node flags
-mod4 + ctrl + {m,x,y,z}
-	bspc node -g {marked,locked,sticky,private}
-
-#
-# focus/swap
-#
+#################################################################
+# FOCUS / SWAP
+#################################################################
 
 # focus the node in the given direction
 ctrl + {_,alt + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-mod4 + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
+# focus the node of the parent
+mod4 + p
+	bspc node -f @parent
 
 # focus the next/previous node in the current desktop
-mod4 + {_,shift + }c
+ctrl + mod4 + {Right, Left}
 	bspc node -f {next,prev}.local
 
-# focus the next/previous desktop in the current monitor
-mod4 + bracket{left,right}
-	bspc desktop -f {prev,next}.local
+# swap the current node and the biggest node
+mod4 + g
+	bspc node -s biggest
 
-# focus the last node/desktop
-# mod4 + {Tab}
-# 	bspc {node,desktop} -f last
-
-# focus the older or newer node in the focus history
-mod4 + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
-
-# focus or send to the given desktop
-mod4 + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
-
-#
-# preselect
-#
+#################################################################
+# PRE SELECTION
+#################################################################
 
 # preselect the direction
-# mod4 + ctrl + {h,j,k,l}
-# 	bspc node -p {west,south,north,east}
-
-# preselect the ratio
-# mod4 + ctrl + {1-9}
-# 	bspc node -o 0.{1-9}
-
-# cancel the preselection for the focused node
-# mod4 + ctrl + space
-# 	bspc node -p cancel
+mod4 + ctrl + shift + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
 
 # cancel the preselection for the focused desktop
-# mod4 + ctrl + shift + space
-# 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+mod4 + ctrl + shift + {space,Escape}
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#################################################################
+# MOVE / RESIZE
+#################################################################
 
 # resize window
 mod4 + alt + Up
@@ -187,10 +179,10 @@ mod4 + alt + Left
 mod4 + alt + Right
 	bspc node -z left -20 0; bspc node -z right 20 0
 
-# contract a window by moving one of its side inward
-mod4 + alt + shift + {Left,Down,Up,Right}
-	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
-
 # move a floating window
 mod4 + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# balance selected node
+mod4 + b
+	bspc node --balance

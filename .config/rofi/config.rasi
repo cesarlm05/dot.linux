@@ -36,7 +36,7 @@ configuration {
 /*	parse-hosts: false;*/
 /*	parse-known-hosts: true;*/
 	combi-modi: "window,drun,calc";
-	matching: "fuzzy";
+/*	matching: "fuzzy"; */
 /*	tokenize: true;*/
 /*	m: "-5";*/
 /*	line-margin: 2;*/

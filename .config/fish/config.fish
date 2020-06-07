@@ -1,8 +1,9 @@
 # Bat Configuration
 set -x BAT_THEME "Dracula"
-set -x MANROFFOPT "-c"
-set -x MANPAGER "sh -c 'col -bx | bat -l man -p'" # use bat to format man pages
+# set -x MANROFFOPT "-c"
+# set -x MANPAGER "sh -c 'col -bx | bat -l man -p'" # use bat to format man pages
 set -x MANPAGER "most" # use bat to format man pages
+set -x MANPAGER "nvim -u NORC +Man!"
 
 # Path
 # set -x PATH $PATH /usr/local/opt/ruby/bin /usr/local/lib/ruby/gems/2.6.0/bin
@@ -70,67 +71,70 @@ navi widget fish | source
 
 # Update
 function update -d "Update homebrew, fish, pnpm"
-  echo "[update] Fedora"
-  sudo dnf upgrade
+    echo "[update] Fedora"
+    sudo dnf upgrade --refresh
 
-  echo "[update] nodejs"
-  pnpm update -g
+    echo "[fix] Brave"
+    fix-brave
 
-  echo "[update] tldr"
-  tldr -u
+    echo "[update] nodejs"
+    pnpm update -g
 
-  echo "[update] fish"
-  fisher self-update
-  fisher
-  fish_update_completions
+    echo "[update] tldr"
+    tldr -u
+
+    echo "[update] fish"
+    fisher self-update
+    fisher
+    fish_update_completions
 end
 
 abbr system "neofetch --source ~/Pictures/Cyberpunk/connected-wallpaper-1920x1080.jpg"
 
 function corona
-  tput civis
-  while true
-    set stats (curl "https://corona-stats.online/Belgium?source=2" --silent | head -n 7)
-    clear
-    for line in $stats
-      echo $line
+    tput civis
+    while true
+        set stats (curl "https://corona-stats.online/Belgium?source=2" --silent | head -n 7)
+        clear
+        for line in $stats
+            echo $line
+        end
+        tput cuu1
+        sleep 30
     end
-    tput cuu1
-    sleep 30
-  end
 end
 
 function dot.untracked
-  dot ls-files -t --other --exclude-standard $argv[1]
+    dot ls-files -t --other --exclude-standard $argv[1]
 end
 
 
 function dot.all
-  dot status -s -unormal
+    dot status -s -unormal
 end
 
 function dot.status
-  dot status -s ~
-  for d in ~/.config/*
-    if dot ls-files --error-unmatch $d &> /dev/null
-      dot.untracked $d
+    dot status -s ~
+    for d in ~/.config/*
+        if dot ls-files --error-unmatch $d &>/dev/null
+            dot.untracked $d
+        end
     end
-  end
-  dot.untracked ~/.SpaceVim.d/
+    dot.untracked ~/.SpaceVim.d/
 end
 
 function fixwifi
-  sudo modprobe -r brcmfmac
-  and sudo modprobe brcmfmac rambase_addr=0x160000
-  and sudo systemctl restart NetworkManager
+    sudo modprobe -r brcmfmac
+    and sudo modprobe brcmfmac rambase_addr=0x160000
+    and sudo systemctl restart NetworkManager
 end
 
 function audio-headphones
-  pacmd set-card-profile (pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
+    pacmd set-card-profile (pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:codec-output+input:codec-input
 end
 
 function audio-speakers
-  pacmd set-card-profile (pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
+    pacmd set-card-profile (pacmd list-cards | grep -B6 'alsa.card_name = "Apple T2 Audio"' | head -n1 | cut -d':' -f 2) output:builtin-speaker+input:builtin-mic
 end
 
 abbr show-cursor "tput cnorm"
@@ -140,10 +144,12 @@ set -g fish_emoji_width 2
 
 # Dracula Theme
 if test -e ~/.config/fish/functions/dracula.fish
-  builtin source ~/.config/fish/functions/dracula.fish
+    builtin source ~/.config/fish/functions/dracula.fish
 end
 
-. ~/.cache/wal/colors.fish
+if test -e ~/.cache/wal/colors.fish
+    builtin source ~/.cache/wal/colors.fish
+end
 
 function sudo
     if functions -q $argv[1]
@@ -152,25 +158,38 @@ function sudo
     command sudo $argv
 end
 
-function polybar-theme
-  exit
-  set theme ~/projects/polybar-themes/polybar-$argv[1]
-  echo "[theme] $theme"
-  rm -rf ~/.config/polybar/*
-  cp -rva $theme/fonts/* ~/.local/share/fonts/
-  fc-cache -v
-  cp -rva $theme/* ~/.config/polybar/
-  sh ~/.config/polybar/launch.sh
+function fix-brave
+    set regex "/brave-browser --password-store/! s/brave-browser /brave-browser --password-store=gnome /"
+    for desktop in Desktop/brave*.desktop .local/share/applications/*.desktop
+        set tmpfile (mktemp /tmp/fix-brave.XXXXXX)
+        sed "$regex" "$desktop" >$tmpfile
+        cmp --silent "$desktop" "$tmpfile" >/dev/null
+        or begin
+            echo "[brave:fix] $desktop"
+            cat "$tmpfile" >"$desktop"
+        end
+        rm "$tmpfile"
+    end
 end
 
 function wunsplash
-  set keywords (echo -s ,$argv | cut -b 2-)
-  set wal (echo ~/.cache/unsplash/(date +"%Y-%m-%d_%H:%M:%S")-$keywords.jpg)
-  notify-send "Wal Unsplash" "Downloading image for $keywords" 
-  curl "https://source.unsplash.com/featured/2560x1600/?$keywords" -L -s -o $wal
-  or exit 1
-  mywal -i "$wal"
-  notify-send "Wal Unsplash" "Done!" 
+    set keywords (echo -s ,$argv | cut -b 2-)
+    set wal (echo ~/.cache/unsplash/(date +"%Y-%m-%d_%H:%M:%S")-$keywords.jpg)
+    notify-send "Wal Unsplash" "Downloading image for $keywords"
+    curl "https://source.unsplash.com/featured/2560x1600/?$keywords" -L -s -o $wal
+    or exit 1
+    mywal -i "$wal"
+    notify-send "Wal Unsplash" "Done!"
+end
+
+function color-test
+    set scripts illumina square crunch panes hex-block tiefighter1row alpha spectrum unowns.py zwaves space-invaders
+    set script "$HOME/projects/color-scripts/color-scripts/"(random choice $scripts)
+    $script
+end
+
+function fish_greeting
+    color-test
 end
 
 abbr coredump-last "coredumpctl gdb (coredumpctl list | tail -1 | awk '{print \$5}')"
