@@ -55,6 +55,14 @@
   merged = 0
 
 [[custom_plugins]]
+  name = "dylanaraps/wal.vim"
+  merged = 0
+
+[[custom_plugins]]
+  name = "romainl/Apprentice"
+  merged = 0
+
+[[custom_plugins]]
   name = "kovetskiy/sxhkd-vim"
   merged = 0
 
