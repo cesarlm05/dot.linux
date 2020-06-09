@@ -9,7 +9,7 @@ fi
     
 pids=$(xdotool search --class ${1})
 if [ -z "$pids" ]; then
-  kitty --class dropdown -o background_opacity=.9&
+  kitty --class scratchpad -o background_opacity=.9&
 else
   for pid in $pids; do
     echo "Toggle $pid"

@@ -24,7 +24,7 @@ ctrl + {_,shift + }q
 
 # Scratchpad
 ctrl + grave
-	scratchpad dropdown
+	scratchpad scratchpad
 
 # Terminal
 ctrl + Return
@@ -33,11 +33,11 @@ ctrl + Return
 # Screenshot
 ctrl + alt + p
 	sfile=$(date "+%Y-%m-%d_%H:%M:%S").png; \
-	drunstify "maim ~/Pictures/Screenshots/$sfile" "Screenshot: $sfile"
+	drunstify "maim -u ~/Pictures/Screenshots/$sfile" "Screenshot: $sfile"
 
 # Screenshot of selected area
 ctrl + alt + shift + p
-	maim -s | xclip -selection clipboard -t image/png 
+	maim -u -s | xclip -selection clipboard -t image/png 
 
 # Pywal + Unsplash
 shift + ctrl + super + r

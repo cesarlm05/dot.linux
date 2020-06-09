@@ -41,7 +41,7 @@ if [ "$active" -eq 1 ]; then
 fi
 
 case "$instance.$class.$pname" in
-  dropdown*) echo "sticky=on state=floating rectangle=1200x600+0+0 border=on center=on" ;;
+  scratchpad*) echo "sticky=on state=floating rectangle=1200x600+0+0 border=on center=on" ;;
 
   code*) echo "desktop=^2" ;;
 

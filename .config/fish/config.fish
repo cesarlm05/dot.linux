@@ -183,7 +183,7 @@ function wunsplash
 end
 
 function color-test
-    set scripts illumina square crunch panes hex-block tiefighter1row alpha spectrum unowns.py zwaves space-invaders
+    set scripts square crunch panes hex-block alpha spectrum unowns.py zwaves space-invaders
     set script "$HOME/projects/color-scripts/color-scripts/"(random choice $scripts)
     $script
 end

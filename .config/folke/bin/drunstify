@@ -5,7 +5,7 @@ ret=$(bash -c "$cmd" 2>&1)
 exitCode=$?
 ret=$(echo "$ret" | head -n 10)
 
-echo $ret
+echo "$ret"
 if [ $exitCode -eq 0 ]; then
   if [ -z "$2" ]; then
     dunstify "\$ $cmd" "$ret"
@@ -19,4 +19,3 @@ else
     dunstify -u critical "$3" "$ret"
   fi
 fi
-
